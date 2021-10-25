@@ -1,5 +1,5 @@
 #include "framework.h"
-#include <opencv2/highgui/highgui.hpp> // 高レベルGUI。imshowとかwindow系のAPIはここ。
+// #include <opencv2/highgui/highgui.hpp> // 高レベルGUI。imshowとかwindow系のAPIはここ。
 
 // #define CAPTURE_USE_THREAD
 
@@ -315,8 +315,8 @@ void getMat(cv::Mat &image)
 void sendMat(cv::Mat &image)
 {
     // TODO: make option
-    cv::imshow("test", image);
-    cv::waitKey(1);
+//    cv::imshow("test", image);
+//    cv::waitKey(1);
 
     // global_lock.lock();
     if(global_stream_enable == false)

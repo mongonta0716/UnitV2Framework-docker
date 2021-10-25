@@ -15,8 +15,14 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # Clone dependencies
 WORKDIR /external
-RUN git clone --depth 1 https://github.com/opencv/opencv.git \
-    && git clone --depth 1 https://github.com/opencv/opencv_contrib.git \
+RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.5.4.tar.gz \
+    && mkdir opencv \
+    && tar -xvf 4.5.4.tar.gz --strip-components 1 -C opencv \
+    && rm 4.5.4.tar.gz \
+    && wget https://github.com/opencv/opencv_contrib/archive/refs/tags/4.5.4.tar.gz \
+    && mkdir opencv_contrib \
+    && tar -xvf 4.5.4.tar.gz --strip-components 1 -C opencv_contrib \
+    && rm 4.5.4.tar.gz \
     && git clone --depth 1 https://github.com/Tencent/ncnn.git \
     && wget https://jaist.dl.sourceforge.net/project/zbar/zbar/0.10/zbar-0.10.tar.bz2 \
     && tar -jxvf zbar-0.10.tar.bz2 \
@@ -24,12 +30,12 @@ RUN git clone --depth 1 https://github.com/opencv/opencv.git \
 
 # Build OpenCV with extra modules
 WORKDIR /external/opencv/
-RUN cmake -B build/arm -DCMAKE_TOOLCHAIN_FILE=./platforms/linux/arm-gnueabi.toolchain.cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules/ -DBUILD_LIST=tracking,imgcodecs,videoio,highgui,features2d,ml,xfeatures2d -DCMAKE_BUILD_TYPE=Release . \
+RUN cmake -B build/arm -DCMAKE_TOOLCHAIN_FILE=./platforms/linux/arm-gnueabi.toolchain.cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules/ -DBUILD_LIST=bgsegm,tracking,imgcodecs,videoio,highgui,features2d,ml,xfeatures2d -DCMAKE_BUILD_TYPE=Release . \
     && cmake --build build/arm
 RUN cmake --install build/arm --prefix install/arm
 
 # OpenCV x64
-RUN cmake -B build/x64 -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules/ -DBUILD_LIST=tracking,imgcodecs,videoio,highgui,features2d,ml,xfeatures2d -DCMAKE_BUILD_TYPE=Debug . \
+RUN cmake -B build/x64 -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules/ -DBUILD_LIST=bgsegm,tracking,imgcodecs,videoio,highgui,features2d,ml,xfeatures2d -DCMAKE_BUILD_TYPE=Debug . \
     && cmake --build build/x64
 RUN cmake --install build/x64 --prefix install/x64
 

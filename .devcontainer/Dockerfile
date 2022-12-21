@@ -15,18 +15,23 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # Clone dependencies
 WORKDIR /external
-RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.5.4.tar.gz \
+RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.4.0.tar.gz \
     && mkdir opencv \
-    && tar -xvf 4.5.4.tar.gz --strip-components 1 -C opencv \
-    && rm 4.5.4.tar.gz \
-    && wget https://github.com/opencv/opencv_contrib/archive/refs/tags/4.5.4.tar.gz \
+    && tar -xvf 4.4.0.tar.gz --strip-components 1 -C opencv \
+#    && cd .. \
+    && rm 4.4.0.tar.gz \
+    && wget https://github.com/opencv/opencv_contrib/archive/refs/tags/4.4.0.tar.gz \
     && mkdir opencv_contrib \
-    && tar -xvf 4.5.4.tar.gz --strip-components 1 -C opencv_contrib \
-    && rm 4.5.4.tar.gz \
+    && tar -xvf 4.4.0.tar.gz --strip-components 1 -C opencv_contrib \
+#    && cd .. \
+    && rm 4.4.0.tar.gz \
     && git clone --depth 1 https://github.com/Tencent/ncnn.git \
     && wget https://jaist.dl.sourceforge.net/project/zbar/zbar/0.10/zbar-0.10.tar.bz2 \
     && tar -jxvf zbar-0.10.tar.bz2 \
     && rm zbar-0.10.tar.bz2
+# RUN wget "https://developer.arm.com/-/media/Files/downloads/gnu-a/10.2-2020.11/binrel/gcc-arm-10.2-2020.11-x86_64-arm-none-linux-gnueabihf.tar.xz?revision=d0b90559-3960-4e4b-9297-7ddbc3e52783&la=en&hash=985078B758BC782BC338DB947347107FBCF8EF6B"
+# RUN tar -xvf ./* -C /usr/local \
+#     && ls -l && rm ./*
 
 # Build OpenCV with extra modules
 WORKDIR /external/opencv/

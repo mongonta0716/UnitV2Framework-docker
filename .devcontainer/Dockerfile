@@ -10,6 +10,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     gcc-arm-linux-gnueabihf \
     g++-arm-linux-gnueabihf \
     libgtk2.0-dev \
+    libasound2-dev \
     pkg-config \
     && apt-get clean && rm -rf /var/lib/opt/lists/*
 
